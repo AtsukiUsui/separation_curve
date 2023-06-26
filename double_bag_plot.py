@@ -152,6 +152,14 @@ plt.text(3, 200, equation_text, fontsize=12, color='black', bbox=dict(facecolor=
 print("Approximation Curve:")
 print(poly)
 
+# 自動保存機能（保存名は、bagファイルの名前）
+# 保存パスの作成
+save_filename = f"Range & Intensity ({bag_filename_1}, {bag_filename_2}).png"
+save_path = os.path.join("/home/atsuki/lab_ws/src/separation_curve/plot", save_filename)
+
+# グラフの保存
+plt.savefig(save_path, dpi=1000)
+
 plt.legend(fontsize=10)
 plt.show()
 
