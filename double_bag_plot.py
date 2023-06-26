@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 # バッグファイルのパス
 bag_path_1 = os.path.join('/home/atsuki/lab_ws/src/separation_curve/bagfile', 'example_shiba.bag') # grass_bag
 bag_path_2 = os.path.join('/home/atsuki/lab_ws/src/separation_curve/bagfile', 'example_renga.bag') # renga_bag 
+bag_filename_1 = os.path.basename(bag_path_1)
+bag_filename_2 = os.path.basename(bag_path_2)
 
 # バッグファイルを読み込む
 bag_1 = rosbag.Bag(bag_path_1, 'r')
@@ -98,11 +100,11 @@ bin_intensities_midpoint = (np.array(bin_intensities_2sigma_1) + np.array(bin_in
 
 # プロット
 plt.subplot(111)
-plt.title(f"Range & Intensity")
+plt.title(f"Range & Intensity ({bag_filename_1},{bag_filename_2}")
 plt.xlabel("Range [m]")
 plt.ylabel("Intensity")
 plt.xlim(2.5, 8)
-plt.ylim(0, 3000)
+plt.ylim(0, 3500)
 
 # バッグファイル1のデータをプロット
 plt.scatter(np_poses_1[:, 0], np_poses_1[:, 1], s=4, c='c', alpha=0.3, label="grass")
@@ -140,8 +142,11 @@ poly = np.poly1d(coefficients)  # 近似曲線の関数
 curve_range = np.linspace(bin_ranges[valid_indices_midpoint][0], bin_ranges[valid_indices_midpoint][-1], 100) #データがある部分までで止める
 
 # 近似曲線をプロット
-plt.plot(curve_range, poly(curve_range), 'm-', label="Approximation Curve")
+plt.plot(curve_range, poly(curve_range), 'k-', linewidth=4.0, label="Approximation Curve")
 
+# 近似曲線の式を表示
+equation_text = f"Approximation Curve: \n {poly}"
+plt.text(3, 200, equation_text, fontsize=12, color='black', bbox=dict(facecolor='w', edgecolor='red', boxstyle='square'))
 
 # 近似曲線の式を出力
 print("Approximation Curve:")
