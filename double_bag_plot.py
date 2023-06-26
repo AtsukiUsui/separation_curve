@@ -6,8 +6,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # バッグファイルのパス
-bag_path_1 = os.path.join('/home/atsuki/lab_ws/src/separation_curve/bagfile', 'example_shiba.bag') # grass_bag
-bag_path_2 = os.path.join('/home/atsuki/lab_ws/src/separation_curve/bagfile', 'example_renga.bag') # renga_bag 
+bag_path_1 = os.path.join('bagfile', 'example_shiba.bag') # grass_bag
+bag_path_2 = os.path.join('bagfile', 'example_renga.bag') # renga_bag 
 bag_filename_1 = os.path.basename(bag_path_1)
 bag_filename_2 = os.path.basename(bag_path_2)
 
@@ -155,7 +155,7 @@ print(poly)
 # 自動保存機能（保存名は、bagファイルの名前）
 # 保存パスの作成
 save_filename = f"Range & Intensity ({bag_filename_1}, {bag_filename_2}).png"
-save_path = os.path.join("/home/atsuki/lab_ws/src/separation_curve/plot", save_filename)
+save_path = os.path.join("plot", save_filename)
 
 plt.legend(fontsize=10)
 
