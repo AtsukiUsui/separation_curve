@@ -33,7 +33,7 @@ bag.close()
 ranges = np_poses[:, 0]
 intensities = np_poses[:, 1]
 
-bin_ranges = np.arange(0, 100, 0.1)  # 500mmごとの範囲
+bin_ranges = np.arange(0, 100, 0.1)  # 100mmごとの範囲
 bin_intensities = []
 for bin_start in bin_ranges:
     bin_end = bin_start + 0.1
@@ -46,7 +46,7 @@ for bin_start in bin_ranges:
 
 # プロット
 plt.subplot(111)
-plt.title("Range & Intensity UTM-30LX")
+plt.title("Range & Intensity")
 plt.xlabel("Range [m]")
 plt.ylabel("Intensity")
 plt.xlim(2.5, 8)
@@ -54,9 +54,9 @@ plt.ylim(0, 3000)
 
 plt.scatter(np_poses[:, 0], np_poses[:, 1], s=4, c='g', alpha=0.3, label="renga")
 
-# 500mmごとの強度の平均値を赤い点でプロット
+# 強度の平均値を赤い点でプロット
 valid_indices = ~np.isnan(bin_intensities)
-plt.scatter(bin_ranges[valid_indices], np.array(bin_intensities)[valid_indices], c='r', marker='o', label="Average Intensity")
+plt.scatter(bin_ranges[valid_indices], np.array(bin_intensities)[valid_indices], c='r', marker='x', label="Average Intensity")
 
 plt.legend(fontsize=10)
 plt.show()
