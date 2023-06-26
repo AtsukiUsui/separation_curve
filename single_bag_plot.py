@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 
 # バッグファイルのパス
 bag_path = os.path.join('/home/atsuki/lab_ws/src/separation_curve/bagfile', 'example_renga.bag')
+bag_filename = os.path.basename(bag_path)
+
 
 # バッグファイルを読み込む
 bag = rosbag.Bag(bag_path, 'r')
@@ -52,7 +54,7 @@ for bin_start in bin_ranges:
 
 # プロット
 plt.subplot(111)
-plt.title("Range & Intensity")
+plt.title(f"Range & Intensity ({bag_filename})")
 plt.xlabel("Range [m]")
 plt.ylabel("Intensity")
 plt.xlim(2.5, 8)
