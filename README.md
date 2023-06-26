@@ -17,7 +17,6 @@ python3 double_bag_plot.py
 
 * グラフは以下の名前で保存される  
 "Range & Intensity ({bag_filename_1}, {bag_filename_2}).png"
-* 
 
 ## 
-* [single_bag_plot.py](separation_curve/single_bag_plot.py)
+* [single_bag_plot.py](/single_bag_plot.py)
