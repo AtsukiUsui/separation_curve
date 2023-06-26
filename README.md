@@ -28,7 +28,7 @@ python3 double_bag_plot.py
   kmmm13037@gmail.com
 
 ## Lincense
-"illuminometer_pub" is under [Apache License 2.0](/LICENSE)
+"separation_curve" is under [Apache License 2.0](/LICENSE)
 
 ## Reference
 [刈払ロボットのためのLIDARの受光強度情報を用いた植生に含まれる石質障害物の検出手法（環境光及び計測対象の湿潤条件を考慮した反射強度の補正式の提案）](https://www.jstage.jst.go.jp/article/transjsme/80/819/80_2014dr0330/_article/-char/ja/)  
