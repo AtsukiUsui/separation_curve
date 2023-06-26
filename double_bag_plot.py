@@ -157,10 +157,9 @@ print(poly)
 save_filename = f"Range & Intensity ({bag_filename_1}, {bag_filename_2}).png"
 save_path = os.path.join("/home/atsuki/lab_ws/src/separation_curve/plot", save_filename)
 
+plt.legend(fontsize=10)
+
 # グラフの保存
 plt.savefig(save_path, dpi=1000)
 
-plt.legend(fontsize=10)
 plt.show()
-
-
