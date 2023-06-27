@@ -101,11 +101,12 @@ bin_intensities_midpoint = (np.array(bin_intensities_2sigma_1) + np.array(bin_in
 
 
 # プロット
+fig = plt.figure(figsize=(12.8, 9.6))  # 新しい図を作成してサイズを指定
 plt.subplot(111)
-plt.title(f"Range & Intensity ({bag_filename_1},{bag_filename_2}")
+plt.title(f"Range & Intensity ({bag_filename_1},{bag_filename_2})")
 plt.xlabel("Range [m]")
 plt.ylabel("Intensity")
-plt.xlim(2, 7)
+plt.xlim(2, 7.5)
 # plt.ylim(0, 3500)
 
 
