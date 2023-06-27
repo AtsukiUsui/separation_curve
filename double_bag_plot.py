@@ -109,7 +109,7 @@ plt.xlim(0, 10)
 plt.ylim(0, 3500)
 
 # バッグファイル1のデータをプロット
-plt.scatter(np_poses_1[:, 0], np_poses_1[:, 1], s=4, c='c', alpha=0.3, label="grass")
+# plt.scatter(np_poses_1[:, 0], np_poses_1[:, 1], s=4, c='c', alpha=0.3, label="grass")
 
 # バッグファイル2のデータをプロット
 plt.scatter(np_poses_2[:, 0], np_poses_2[:, 1], s=4, c='r', alpha=0.3, label="renga")
@@ -159,15 +159,19 @@ intensity_vals_grass = np_poses_1[:, 1]
 ratio_grass = (np.sum(intensity_vals_grass > poly(np_poses_1[:, 0])) / len(intensity_vals_grass)) * 100
 ratio_grass = round(ratio_grass, 2)  # 小数点第2位までに制限
 
-print("芝生の認識率: %.2f%%" % ratio_grass)
+print("芝生の点群数        :" ,np.sum(intensity_vals_grass > poly(np_poses_1[:, 0])))
+print("分離曲線以下の点群数:" ,len(intensity_vals_grass))
+print("->芝生の認識率      : %.2f%%\n" % ratio_grass)
 
 
 # レンガの認識率
-intensity_vals_renga = np_poses_2[:, 1]
-ratio_renga = (np.sum(intensity_vals_renga > poly(np_poses_2[:, 0])) / len(intensity_vals_renga)) * 100
+intensity_vals_renga = intensities_2
+ratio_renga = (np.sum(intensity_vals_renga <= poly(ranges_2)) / len(intensity_vals_renga)) * 100
 ratio_renga = round(ratio_renga, 2)  # 小数点第2位までに制限
 
-print("レンガの認識率: %.2f%%" % ratio_renga)
+print("レンガの点群数      :" ,np.sum(intensity_vals_renga <= poly(ranges_2)))
+print("分離曲線以下の点群数:" ,len(intensity_vals_renga))
+print("->レンガの認識率    : %.2f%%" % ratio_renga)
 
 
 # 自動保存機能（保存名は、bagファイルの名前）
