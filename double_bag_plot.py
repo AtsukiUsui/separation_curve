@@ -105,11 +105,12 @@ plt.subplot(111)
 plt.title(f"Range & Intensity ({bag_filename_1},{bag_filename_2}")
 plt.xlabel("Range [m]")
 plt.ylabel("Intensity")
-plt.xlim(0, 10)
-plt.ylim(0, 3500)
+# plt.xlim(0, 100)
+# plt.ylim(0, 3500)
+
 
 # バッグファイル1のデータをプロット
-# plt.scatter(np_poses_1[:, 0], np_poses_1[:, 1], s=4, c='c', alpha=0.3, label="grass")
+plt.scatter(np_poses_1[:, 0], np_poses_1[:, 1], s=4, c='c', alpha=0.3, label="grass")
 
 # バッグファイル2のデータをプロット
 plt.scatter(np_poses_2[:, 0], np_poses_2[:, 1], s=4, c='r', alpha=0.3, label="renga")
@@ -140,8 +141,8 @@ coefficients = np.polyfit(bin_ranges[valid_indices_midpoint], bin_intensities_mi
 poly = np.poly1d(coefficients)  # 近似曲線の関数
 
 # 近似曲線の範囲を設定（近似曲線は元データに依存するので元データ大事）
-curve_range = np.linspace(min(bin_ranges), max(bin_ranges), 100) # データがなくても近似曲線をプロットする
-# curve_range = np.linspace(bin_ranges[valid_indices_midpoint][0], bin_ranges[valid_indices_midpoint][-1], 100) #データがある部分までで止める
+# curve_range = np.linspace(min(bin_ranges), max(bin_ranges), 100) # データがなくても近似曲線をプロットする
+curve_range = np.linspace(bin_ranges[valid_indices_midpoint][0], bin_ranges[valid_indices_midpoint][-1], 100) #データがある部分までで止める
 
 # 近似曲線をプロット
 plt.plot(curve_range, poly(curve_range), 'k-', linewidth=4.0, label="Approximation Curve")
@@ -154,23 +155,24 @@ plt.text(3, 200, equation_text, fontsize=12, color='black', bbox=dict(facecolor=
 print("Approximation Curve:")
 print(poly)
 
-# 芝生の認識率
+# 芝生の認識率（分離曲線より大きい）
 intensity_vals_grass = np_poses_1[:, 1]
-ratio_grass = (np.sum(intensity_vals_grass > poly(np_poses_1[:, 0])) / len(intensity_vals_grass)) * 100
+valid_indices_grass = (np_poses_1[:, 0] != 0) & (intensity_vals_grass != 0)  # 距離と強度が0でないインデックスを取得
+ratio_grass = (np.sum(intensity_vals_grass[valid_indices_grass] > poly(np_poses_1[:, 0][valid_indices_grass])) / len(intensity_vals_grass[valid_indices_grass])) * 100
 ratio_grass = round(ratio_grass, 2)  # 小数点第2位までに制限
 
-print("芝生の点群数        :" ,np.sum(intensity_vals_grass > poly(np_poses_1[:, 0])))
-print("分離曲線以下の点群数:" ,len(intensity_vals_grass))
+print("芝生の点群数        :", np.sum(valid_indices_grass))
+print("分離曲線以下の点群数:", len(valid_indices_grass))
 print("->芝生の認識率      : %.2f%%\n" % ratio_grass)
 
-
-# レンガの認識率
-intensity_vals_renga = intensities_2
-ratio_renga = (np.sum(intensity_vals_renga <= poly(ranges_2)) / len(intensity_vals_renga)) * 100
+# レンガの認識率(分離曲線より小さい)
+intensity_vals_renga = np_poses_2[:, 1]
+valid_indices_renga = (np_poses_2[:, 0] != 0) & (intensity_vals_renga != 0)  # 距離と強度が0でないインデックスを取得
+ratio_renga = (np.sum(intensity_vals_renga[valid_indices_renga] < poly(np_poses_2[:, 0][valid_indices_renga])) / len(intensity_vals_renga[valid_indices_renga])) * 100
 ratio_renga = round(ratio_renga, 2)  # 小数点第2位までに制限
 
-print("レンガの点群数      :" ,np.sum(intensity_vals_renga <= poly(ranges_2)))
-print("分離曲線以下の点群数:" ,len(intensity_vals_renga))
+print("レンガの点群数      :", np.sum(valid_indices_renga))
+print("分離曲線以下の点群数:", len(valid_indices_renga))
 print("->レンガの認識率    : %.2f%%" % ratio_renga)
 
 
