@@ -8,8 +8,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # バッグファイルのパス
-bag_path_1 = os.path.join('bagfile', 'example_shiba.bag') # grass_bag
-bag_path_2 = os.path.join('bagfile', 'example_renga.bag') # renga_bag 
+bag_path_1 = os.path.join('bagfile', 'example_shiba.bag') # 芝生
+bag_path_2 = os.path.join('bagfile', 'example_renga.bag') #  
 bag_filename_1 = os.path.basename(bag_path_1)
 bag_filename_2 = os.path.basename(bag_path_2)
 
@@ -105,7 +105,7 @@ plt.subplot(111)
 plt.title(f"Range & Intensity ({bag_filename_1},{bag_filename_2}")
 plt.xlabel("Range [m]")
 plt.ylabel("Intensity")
-plt.xlim(2.5, 8)
+plt.xlim(0, 10)
 plt.ylim(0, 3500)
 
 # バッグファイル1のデータをプロット
@@ -140,8 +140,8 @@ coefficients = np.polyfit(bin_ranges[valid_indices_midpoint], bin_intensities_mi
 poly = np.poly1d(coefficients)  # 近似曲線の関数
 
 # 近似曲線の範囲を設定（近似曲線は元データに依存するので元データ大事）
-# curve_range = np.linspace(min(bin_ranges), max(bin_ranges), 100) # データがなくても近似曲線をプロットする
-curve_range = np.linspace(bin_ranges[valid_indices_midpoint][0], bin_ranges[valid_indices_midpoint][-1], 100) #データがある部分までで止める
+curve_range = np.linspace(min(bin_ranges), max(bin_ranges), 100) # データがなくても近似曲線をプロットする
+# curve_range = np.linspace(bin_ranges[valid_indices_midpoint][0], bin_ranges[valid_indices_midpoint][-1], 100) #データがある部分までで止める
 
 # 近似曲線をプロット
 plt.plot(curve_range, poly(curve_range), 'k-', linewidth=4.0, label="Approximation Curve")
@@ -154,14 +154,30 @@ plt.text(3, 200, equation_text, fontsize=12, color='black', bbox=dict(facecolor=
 print("Approximation Curve:")
 print(poly)
 
+# 芝生の認識率
+intensity_vals_grass = np_poses_1[:, 1]
+ratio_grass = (np.sum(intensity_vals_grass > poly(np_poses_1[:, 0])) / len(intensity_vals_grass)) * 100
+ratio_grass = round(ratio_grass, 2)  # 小数点第2位までに制限
+
+print("芝生の認識率: %.2f%%" % ratio_grass)
+
+
+# レンガの認識率
+intensity_vals_renga = np_poses_2[:, 1]
+ratio_renga = (np.sum(intensity_vals_renga > poly(np_poses_2[:, 0])) / len(intensity_vals_renga)) * 100
+ratio_renga = round(ratio_renga, 2)  # 小数点第2位までに制限
+
+print("レンガの認識率: %.2f%%" % ratio_renga)
+
+
 # 自動保存機能（保存名は、bagファイルの名前）
 # 保存パスの作成
 save_filename = f"Range & Intensity ({bag_filename_1}, {bag_filename_2}).png"
 save_path = os.path.join("plot", save_filename)
 
-plt.legend(fontsize=10)
+plt.legend(fontsize=10, loc='upper right')  # 凡例を右上に配置
 
 # グラフの保存
-plt.savefig(save_path, dpi=1000)
+plt.savefig(save_path, dpi=100)
 
 plt.show()
