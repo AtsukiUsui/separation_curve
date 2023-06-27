@@ -105,7 +105,7 @@ plt.subplot(111)
 plt.title(f"Range & Intensity ({bag_filename_1},{bag_filename_2}")
 plt.xlabel("Range [m]")
 plt.ylabel("Intensity")
-# plt.xlim(0, 100)
+plt.xlim(2, 7)
 # plt.ylim(0, 3500)
 
 
@@ -135,19 +135,20 @@ plt.scatter(bin_ranges[valid_indices_2sigma_2], np.array(bin_intensities_2sigma_
 valid_indices_midpoint = valid_indices_2sigma_1 & valid_indices_2sigma_2
 plt.scatter(bin_ranges[valid_indices_midpoint], bin_intensities_midpoint[valid_indices_midpoint], c='orange', marker='o', label="Midpoint")
 
-# # 中間点の近似曲線を求める
+# 中間点の近似曲線を求める
 degree = 3  # 多項式の次数
 coefficients = np.polyfit(bin_ranges[valid_indices_midpoint], bin_intensities_midpoint[valid_indices_midpoint], degree)
 poly = np.poly1d(coefficients)  # 近似曲線の関数
 
 # 近似曲線の範囲を設定（近似曲線は元データに依存するので元データ大事）
-# curve_range = np.linspace(min(bin_ranges), max(bin_ranges), 100) # データがなくても近似曲線をプロットする
+# curve_range = np.linspace(np.min(bin_ranges), np.max(bin_ranges), 100) # データがなくても近似曲線をプロットする
 curve_range = np.linspace(bin_ranges[valid_indices_midpoint][0], bin_ranges[valid_indices_midpoint][-1], 100) #データがある部分までで止める
 
 # 近似曲線をプロット
 plt.plot(curve_range, poly(curve_range), 'k-', linewidth=4.0, label="Approximation Curve")
 
-# 近似曲線の式を表示
+
+# 近似曲線の式をグラフに表示
 equation_text = f"Approximation Curve: \n {poly}"
 plt.text(3, 200, equation_text, fontsize=12, color='black', bbox=dict(facecolor='w', edgecolor='red', boxstyle='square'))
 
