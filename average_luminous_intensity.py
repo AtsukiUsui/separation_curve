@@ -1,7 +1,13 @@
 import rosbag
 from std_msgs.msg import Float64
+import sys
 
-bag_file_path = "//home/atsuki/experiment/20203-07-03/2023-07-03-17-45-51.bag"
+# コマンドライン引数からbag_file_pathを取得
+if len(sys.argv) < 2:
+    print("Usage: python average_luminous_intensity.py <bag_file_path>")
+    sys.exit(1)
+bag_file_path = sys.argv[1]
+
 topic_name = "/luminous_intensity"
 
 # メッセージの総数と合計値を初期化
