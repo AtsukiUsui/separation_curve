@@ -8,6 +8,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import argparse
 
+degree = 4  # 多項式の次数
+
 parser = argparse.ArgumentParser(description='Process ROS bag files.')
 parser.add_argument('bag_file_1', type=str, help='Path to the grass bag file')
 parser.add_argument('bag_file_2', type=str, help='Path to the brick bag file')
@@ -142,7 +144,7 @@ valid_indices_midpoint = valid_indices_2sigma_1 & valid_indices_2sigma_2
 plt.scatter(bin_ranges[valid_indices_midpoint], bin_intensities_midpoint[valid_indices_midpoint], c='orange', marker='o', label="Midpoint")
 
 # 中間点の近似曲線を求める
-degree = 3  # 多項式の次数
+
 coefficients = np.polyfit(bin_ranges[valid_indices_midpoint], bin_intensities_midpoint[valid_indices_midpoint], degree)
 poly = np.poly1d(coefficients)  # 近似曲線の関数
 
