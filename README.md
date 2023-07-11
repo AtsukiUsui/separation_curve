@@ -7,9 +7,9 @@
 ## Install & How to use
 ```
 git clone git@github.com:AtsukiUsui/separation_curve.git
- python double_bag_plot.py <bag_file_1> <bag_file_2>
-
+python double_bag_plot.py <bag_file_1> <bag_file_2>
 ```
+ex  ```python double_bag_plot.py bagfile/example_shiba.bag bagfile/example_renga.bag```
 
 | 変数名     | 初期値            | 説明                | 
 | ---------- | ----------------- | ------------------- | 
