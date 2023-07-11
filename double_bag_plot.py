@@ -27,7 +27,7 @@ np_poses_2 = None
 
 # バッグファイル1のデータを処理
 for topic, msg, t in bag_1.read_messages():
-    if topic == "/scan":
+    if topic == "/diag_scan":
         np_pose = np.zeros((896, 4))
 
         for i in range(360):
@@ -46,7 +46,7 @@ bag_1.close()
 
 # バッグファイル2のデータを処理
 for topic, msg, t in bag_2.read_messages():
-    if topic == "/scan":
+    if topic == "/diag_scan":
         np_pose = np.zeros((896, 4))
 
         for i in range(360):
