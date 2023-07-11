@@ -6,18 +6,19 @@
 
 ## Install & How to use
 ```
-git@github.com:AtsukiUsui/separation_curve.git
-python3 double_bag_plot.py
+git clone git@github.com:AtsukiUsui/separation_curve.git
+ python double_bag_plot.py <bag_file_1> <bag_file_2>
+
 ```
 
 | 変数名     | 初期値            | 説明                | 
 | ---------- | ----------------- | ------------------- | 
-| bag_path_1 | example_shiba.bag | 芝生のbagファイル   | 
-| bag_path_2 | example_renga.bag | レンガのbagファイル | 
+| bag_file_1 | example_shiba.bag | 芝生のbagファイル   | 
+| bag_file_2 | example_renga.bag | レンガのbagファイル | 
 | degree     | 3                 | 近似曲線の次数      | 
 | dpi     | 1000(初期値：100)                | グラフの解像度   | 
 
-* rosbagは[separation_curve/bagfile](/bagfile)に置いてください。
+
 * プロットしたグラフは[separation_curve/plot](/plot)に以下の名前で保存されます。  
 ``"Range & Intensity ({bag_filename_1}, {bag_filename_2}).png"``
 

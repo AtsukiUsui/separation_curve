@@ -6,16 +6,21 @@ import os
 import rosbag
 import numpy as np
 import matplotlib.pyplot as plt
+import argparse
 
-# バッグファイルのパス
-bag_path_1 = os.path.join('bagfile', 'example_shiba.bag') # 芝生
-bag_path_2 = os.path.join('bagfile', 'example_renga.bag') #  
-bag_filename_1 = os.path.basename(bag_path_1)
-bag_filename_2 = os.path.basename(bag_path_2)
+parser = argparse.ArgumentParser(description='Process ROS bag files.')
+parser.add_argument('bag_file_1', type=str, help='Path to the grass bag file')
+parser.add_argument('bag_file_2', type=str, help='Path to the brick bag file')
+args = parser.parse_args()
+
+bag_file_1 = args.bag_file_1
+bag_file_2 = args.bag_file_2
+bag_filename_1 = os.path.basename(bag_file_1)
+bag_filename_2 = os.path.basename(bag_file_2)
 
 # バッグファイルを読み込む
-bag_1 = rosbag.Bag(bag_path_1, 'r')
-bag_2 = rosbag.Bag(bag_path_2, 'r')
+bag_1 = rosbag.Bag(bag_file_1, 'r')
+bag_2 = rosbag.Bag(bag_file_2, 'r')
 
 np_poses_1 = None
 np_poses_2 = None
@@ -155,7 +160,7 @@ plt.text(3, 200, equation_text, fontsize=12, color='black', bbox=dict(facecolor=
 
 # 近似曲線の式を出力
 print("Approximation Curve:")
-print(poly)
+print(poly, "\n")
 
 # 芝生の認識率（分離曲線より大きい）
 intensity_vals_grass = np_poses_1[:, 1]
