@@ -114,7 +114,7 @@ plt.title(f"Range & Intensity ({bag_filename_1},{bag_filename_2})")
 plt.xlabel("Range [m]")
 plt.ylabel("Intensity")
 plt.xlim(2, 7.5)
-# plt.ylim(0, 3500)
+plt.ylim(0, 4000)
 
 
 # バッグファイル1のデータをプロット
