@@ -44,6 +44,28 @@ for topic, msg, t in bag_1.read_messages():
         else:
             np_poses_1 = np.append(np_poses_1, np_pose, axis=0)
 
+# /luminous_intensity
+topic_name = "/luminous_intensity"
+
+# メッセージの総数と合計値を初期化
+count_1 = 0
+total_illumination_1 = 0.0
+
+# 指定したトピックのメッセージをイテレーション (bag_1)
+for topic, msg, t in bag_1.read_messages(topics=[topic_name]):
+    illumination = msg.data  # Float64メッセージのデータフィールドから値を取得
+    total_illumination_1 += illumination
+    count_1 += 1
+
+# 平均値を計算 (bag_1)
+if count_1 > 0:
+    average_illumination_1 = total_illumination_1 / count_1
+    rounded_illumination_1 = round(average_illumination_1, 0)
+    integer_illumination_1 = int(rounded_illumination_1)
+    print("平均照度 （芝生）:", integer_illumination_1)
+else:
+    print("No messages found on the", topic_name, "topic.")
+
 bag_1.close()
 
 # バッグファイル2のデータを処理
@@ -63,7 +85,31 @@ for topic, msg, t in bag_2.read_messages():
         else:
             np_poses_2 = np.append(np_poses_2, np_pose, axis=0)
 
+# メッセージの総数と合計値を初期化
+count_2 = 0
+total_illumination_2 = 0.0
+
+# 指定したトピックのメッセージをイテレーション (bag_2)
+for topic, msg, t in bag_2.read_messages(topics=[topic_name]):
+    illumination = msg.data  # Float64メッセージのデータフィールドから値を取得
+    total_illumination_2 += illumination
+    count_2 += 1
+
+# 平均値を計算 (bag_2)
+if count_2 > 0:
+    average_illumination_2 = total_illumination_2 / count_2
+    rounded_illumination_2 = round(average_illumination_2, 0)
+    integer_illumination_2 = int(rounded_illumination_2)
+    print("平均照度 (レンガ):", integer_illumination_2)
+else:
+    print("No messages found on the", topic_name, "topic.")
+
 bag_2.close()
+
+# 2つの平均値の平均値を計算
+average_illumination_combined = (average_illumination_1 + average_illumination_2) / 2
+rounded_illumination_combined = round(average_illumination_combined, 0)
+integer_illumination_combined = int(rounded_illumination_combined)
 
 # 強度の平均値を計算
 ranges_1 = np_poses_1[:, 0]
@@ -110,11 +156,12 @@ bin_intensities_midpoint = (np.array(bin_intensities_2sigma_1) + np.array(bin_in
 # プロット
 fig = plt.figure(figsize=(12.8, 9.6))  # 新しい図を作成してサイズを指定
 plt.subplot(111)
-plt.title(f"Range & Intensity ({bag_filename_1},{bag_filename_2})")
+plt.title(f"Range & Intensity ({bag_filename_1}, {bag_filename_2})\nAverage Illumination: {integer_illumination_combined}({integer_illumination_1},{integer_illumination_2})")
 plt.xlabel("Range [m]")
 plt.ylabel("Intensity")
-plt.xlim(2, 7.5)
-plt.ylim(0, 4000)
+# plt.xlim(2, 7.5)
+plt.xlim(2, 10)
+plt.ylim(0, 3500)
 
 
 # バッグファイル1のデータをプロット
