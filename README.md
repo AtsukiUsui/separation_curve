@@ -9,6 +9,9 @@
 git clone git@github.com:AtsukiUsui/separation_curve.git
 python double_bag_plot.py <bag_file_1> <bag_file_2>
 ```
+```
+Enter the equation: -0.69*x**4 + 26*x**3 - 322*x**2 + 1306*x + 107
+```
 ex  ```python double_bag_plot.py bagfile/example_shiba.bag bagfile/example_renga.bag```
 
 | 変数名     | 初期値            | 説明                | 

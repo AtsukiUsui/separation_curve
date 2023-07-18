@@ -15,6 +15,15 @@ parser.add_argument('bag_file_1', type=str, help='Path to the grass bag file')
 parser.add_argument('bag_file_2', type=str, help='Path to the brick bag file')
 args = parser.parse_args()
 
+
+equation = input("Enter the equation: ")
+
+# 数式を解析して関数オブジェクトを生成
+x = np.linspace(-10, 10, 100)
+y = eval(equation)
+
+
+
 bag_file_1 = args.bag_file_1
 bag_file_2 = args.bag_file_2
 bag_filename_1 = os.path.basename(bag_file_1)
@@ -163,6 +172,8 @@ plt.ylabel("Intensity")
 plt.xlim(2, 10)
 plt.ylim(0, 3500)
 
+# 入力した曲線をプロット
+plt.plot(x, y, linewidth=4.0, color='purple')
 
 # バッグファイル1のデータをプロット
 plt.scatter(np_poses_1[:, 0], np_poses_1[:, 1], s=4, c='c', alpha=0.3, label="grass")
