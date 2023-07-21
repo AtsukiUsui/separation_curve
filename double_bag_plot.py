@@ -11,8 +11,8 @@ import argparse
 degree = 2  # 多項式の次数
 
 # 分離曲線の生成に使用する、距離の範囲
-distance_lower_limit = 2.0  # 適切な下限を設定してください
-distance_upper_limit = 7.5  # 適切な上限を設定してください
+distance_lower_limit = 3.0  # 適切な下限を設定してください
+distance_upper_limit = 8.0  # 適切な上限を設定してください
 
 parser = argparse.ArgumentParser(description='Process ROS bag files.')
 parser.add_argument('bag_file_1', type=str, help='Path to the grass bag file')
@@ -190,8 +190,8 @@ plt.title(
 plt.xlabel("Range [m]")
 plt.ylabel("Intensity")
 # plt.xlim(2, 7.5)
-plt.xlim(2, 10)
-plt.ylim(0, 3500)
+plt.xlim(distance_lower_limit, distance_upper_limit)
+plt.ylim(0, 3000)
 
 # 入力した曲線をプロット
 plt.plot(x, y, linewidth=6.0, color='b')
