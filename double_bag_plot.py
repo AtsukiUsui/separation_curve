@@ -127,7 +127,7 @@ if count_2 > 0:
     average_illumination_2 = total_illumination_2 / count_2
     rounded_illumination_2 = round(average_illumination_2, 0)
     integer_illumination_2 = int(rounded_illumination_2)
-    print("平均照度 (レンガ):", integer_illumination_2)
+    print("平均照度 (レンガ):\n", integer_illumination_2)
 else:
     print("No messages found on the", topic_name, "topic.")
 
@@ -193,9 +193,6 @@ plt.ylabel("Intensity")
 plt.xlim(distance_lower_limit, distance_upper_limit)
 plt.ylim(0, 3000)
 
-# 入力した曲線をプロット
-plt.plot(x, y, linewidth=6.0, color='b')
-
 # バッグファイル1のデータをプロット
 plt.scatter(np_poses_1[:, 0], np_poses_1[:, 1],
             s=4, c='c', alpha=0.3, label="grass")
@@ -251,8 +248,12 @@ equation_text = f"Approximation Curve: \n {poly}"
 plt.text(3, 200, equation_text, fontsize=12, color='black',
          bbox=dict(facecolor='w', edgecolor='red', boxstyle='square'))
 
+# 入力した曲線をプロット
+plt.plot(x, y, linewidth=6.0, color='b')
+
 # 近似曲線の式を出力
-print("Approximation Curve:")
+print("-------------------------------------------------------\n")
+print("生成した分離曲線:")
 print(poly, "\n")
 
 # 芝生の認識率（分離曲線より大きい）
@@ -277,15 +278,66 @@ ratio_renga = round(ratio_renga, 2)  # 小数点第2位までに制限
 
 print("レンガの点群数      :", np.sum(valid_indices_renga))
 print("分離曲線以下の点群数:", len(valid_indices_renga))
-print("->レンガの認識率    : %.2f%%" % ratio_renga)
+print("->レンガの認識率    : %.2f%%\n" % ratio_renga)
 
+
+# 入力した等式に関しての認識率
+print("-------------------------------------------------------\n")
+print("入力した等式：", equation, "\n")
+
+# 入力した等式を評価して関数として扱う
+
+
+def parsed_equation(x): return eval(equation)
+
+
+# 芝生の認識率（分離曲線より大きい）
+ratio_grass_equation = (
+    np.sum(intensity_vals_grass[valid_indices_grass] > parsed_equation(
+        np_poses_1[:, 0][valid_indices_grass]))
+    / len(intensity_vals_grass[valid_indices_grass])
+) * 100
+ratio_grass_equation = round(ratio_grass_equation, 2)
+
+print("芝生の点群数        :", np.sum(valid_indices_grass))
+print("分離曲線以下の点群数:", len(valid_indices_grass))
+print("->芝生の認識率      : %.2f%%\n" % ratio_grass_equation)
+
+# レンガの認識率(分離曲線より小さい)
+ratio_renga_equation = (
+    np.sum(intensity_vals_renga[valid_indices_renga] < parsed_equation(
+        np_poses_2[:, 0][valid_indices_renga]))
+    / len(intensity_vals_renga[valid_indices_renga])
+) * 100
+ratio_renga_equation = round(ratio_renga_equation, 2)
+
+print("レンガの点群数      :", np.sum(valid_indices_renga))
+print("分離曲線以下の点群数:", len(valid_indices_renga))
+print("->レンガの認識率    : %.2f%%" % ratio_renga_equation)
+
+
+# poly の式を文字列に変換（2乗項を正しく表現）
+poly_str = np.poly1d(coefficients).__str__().replace('x2', 'x^2')
+
+# 凡例にラベルを追加
+labels = [
+    "grass",
+    "renga",
+    "Average Intensity (grass)",
+    "Average Intensity (renga)",
+    "Average + 2σ (grass)",
+    "Average + 2σ (renga)",
+    "Midpoint",
+    f"Approximation Curve: {poly_str}",
+    f"Input Equation: {equation}"
+]
+
+plt.legend(fontsize=10, loc='upper right', labels=labels)
 
 # 自動保存機能（保存名は、bagファイルの名前）
 # 保存パスの作成
 save_filename = f"Range & Intensity ({bag_filename_1}, {bag_filename_2}).png"
 save_path = os.path.join("plot", save_filename)
-
-plt.legend(fontsize=10, loc='upper right')  # 凡例を右上に配置
 
 # グラフの保存
 plt.savefig(save_path, dpi=100)
