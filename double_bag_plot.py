@@ -127,7 +127,7 @@ if count_2 > 0:
     average_illumination_2 = total_illumination_2 / count_2
     rounded_illumination_2 = round(average_illumination_2, 0)
     integer_illumination_2 = int(rounded_illumination_2)
-    print("平均照度 (レンガ):\n", integer_illumination_2)
+    print("平均照度 (レンガ):", integer_illumination_2)
 else:
     print("No messages found on the", topic_name, "topic.")
 
@@ -232,6 +232,23 @@ coefficients = np.polyfit(bin_ranges[valid_indices_midpoint],
                           bin_intensities_midpoint[valid_indices_midpoint], degree)
 poly = np.poly1d(coefficients)  # 近似曲線の関数
 
+
+# 分離曲線を1行で表し、次数の多い順からソートする
+def format_polynomial(coefficients):
+    terms = []
+    for power, coef in sorted(enumerate(coefficients[::-1]), reverse=True):
+        if power == 0:
+            term = f"{coef:.4g}"
+        elif power == 1:
+            term = f"{coef:.4g}x"
+        else:
+            term = f"{coef:.4g}x^{power}"
+        terms.append(term)
+    return ' + '.join(terms)
+
+
+poly_str = format_polynomial(coefficients)
+
 # 近似曲線の範囲を設定（近似曲線は元データに依存するので元データ大事）
 curve_range = np.linspace(np.min(bin_ranges), np.max(
     bin_ranges), 100)  # データがなくても近似曲線をプロットする
@@ -255,6 +272,7 @@ plt.plot(x, y, linewidth=6.0, color='b')
 print("-------------------------------------------------------\n")
 print("生成した分離曲線:")
 print(poly, "\n")
+print(poly_str, "\n")
 
 # 芝生の認識率（分離曲線より大きい）
 intensity_vals_grass = np_poses_1[:, 1]
@@ -285,9 +303,8 @@ print("->レンガの認識率    : %.2f%%\n" % ratio_renga)
 print("-------------------------------------------------------\n")
 print("入力した等式：", equation, "\n")
 
+
 # 入力した等式を評価して関数として扱う
-
-
 def parsed_equation(x): return eval(equation)
 
 
@@ -315,10 +332,6 @@ print("レンガの点群数      :", np.sum(valid_indices_renga))
 print("分離曲線以下の点群数:", len(valid_indices_renga))
 print("->レンガの認識率    : %.2f%%" % ratio_renga_equation)
 
-
-# poly の式を文字列に変換（2乗項を正しく表現）
-poly_str = np.poly1d(coefficients).__str__().replace('x2', 'x^2')
-
 # 凡例にラベルを追加
 labels = [
     "grass",
@@ -328,8 +341,8 @@ labels = [
     "Average + 2σ (grass)",
     "Average + 2σ (renga)",
     "Midpoint",
-    f"Approximation Curve: {poly_str}",
-    f"Input Equation: {equation}"
+    f"Approximation Curve: \n{poly_str}",
+    f"Input Equation: \n{equation}"
 ]
 
 plt.legend(fontsize=10, loc='upper right', labels=labels)
