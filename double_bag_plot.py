@@ -332,6 +332,10 @@ print("レンガの点群数      :", np.sum(valid_indices_renga))
 print("分離曲線以下の点群数:", len(valid_indices_renga))
 print("->レンガの認識率    : %.2f%%" % ratio_renga_equation)
 
+# equationを変換
+equation_str = equation = equation.replace('**2', '^2')
+equation_str = equation_str.replace('*x', 'x')
+
 # 凡例にラベルを追加
 labels = [
     "grass",
@@ -342,7 +346,11 @@ labels = [
     "Average + 2σ (renga)",
     "Midpoint",
     f"Approximation Curve: \n{poly_str}",
-    f"Input Equation: \n{equation}"
+    f"  Grass_ratio:{ratio_grass}%"
+    f"\n  Renga_ratio:{ratio_renga}%"
+    f"\nInput Equation: \n{equation_str}"
+    f"\n  Grass_ratio:{ratio_grass_equation}%"
+    f"\n  Renga_ratio:{ratio_renga_equation}%"
 ]
 
 plt.legend(fontsize=10, loc='upper right', labels=labels)
