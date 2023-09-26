@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # bagファイルのパスを指定するリスト
-bag_file_paths = ["/home/atsuki/lab_ws/src/experiment/2023-07-10-1/7-renga_2023-07-10-12-46-37.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-2/7-renga_2023-07-10-21-32-12.bag"]
+bag_file_paths = ["/home/atsuki/lab_ws/src/experiment/2023-09-26/5_shiba_2023-09-26-15-54-33.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-09-26/4_renga_2023-09-26-15-50-30.bag"]
 
 # 各bagファイルに対して処理を行う
 for bag_file_path in bag_file_paths:
