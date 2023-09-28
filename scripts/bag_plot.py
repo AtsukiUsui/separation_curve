@@ -5,10 +5,8 @@ import japanize_matplotlib
 
 
 # bagファイルのパスを指定するリスト
-bag_file_paths = ["/home/atsuki/lab_ws/src/experiment/2023-09-28/2_shiba_2023-09-28-10-56-59.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/6_shiba_2023-09-26-15-57-07.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_2/3_shiba_2023-09-26-17-46-16.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-2/5-shiba_2023-07-10-21-28-21.bag"]
+bag_file_paths = [
+    "/home/atsuki/lab_ws/src/experiment/2023-09-28/1_renga_2023-09-28-10-53-29.bag"]
 
 
 # 各bagファイルに対して処理を行う
@@ -40,14 +38,10 @@ for bag_file_path in bag_file_paths:
     # bagファイルを閉じる
     bag.close()
 
-    plt.rcParams["xtick.direction"] = "in"  # x軸の目盛線を内向きへ
-    plt.rcParams["ytick.direction"] = "in"  # y軸の目盛線を内向きへ
-    plt.rcParams["xtick.minor.visible"] = True  # x軸補助目盛りの追加
-    plt.rcParams["ytick.minor.visible"] = True  # y軸補助目盛りの追加
-
     # プロット
     plt.scatter(ranges_data, intensities_data, alpha=0.5,
                 label=f'{average_luminous_intensity} lx')
+
 
 # グラフの軸ラベルと凡例を設定
 plt.title(
@@ -60,6 +54,10 @@ plt.legend()
 plt.xlim(3, 10)
 plt.ylim(0, 3000)
 
+
+# 目盛り線の向きを内側に設定（補助目盛りも含む）
+plt.tick_params(which='both', direction='in', top=True, right=True)
+# plt.minorticks_on()  # 補助目盛りの表示
 
 # プロットを表示
 plt.show()
