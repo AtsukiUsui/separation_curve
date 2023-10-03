@@ -6,7 +6,11 @@ import japanize_matplotlib
 
 # bagファイルのパスを指定するリスト
 bag_file_paths = [
-    "/home/atsuki/lab_ws/src/experiment/2023-09-28/1_renga_2023-09-28-10-53-29.bag"]
+    "/home/atsuki/lab_ws/src/experiment/2023-07-10-1/10-renga_2023-07-10-12-53-53.bag",
+    "/home/atsuki/lab_ws/src/experiment/2023-07-10-2/10-renga_2023-07-10-21-38-31.bag",
+    "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/4_renga_2023-09-26-15-50-30.bag",
+    "/home/atsuki/lab_ws/src/experiment/2023-09-26_2/2_renga_2023-09-26-17-42-40.bag",
+    "/home/atsuki/lab_ws/src/experiment/2023-09-28/3_renga_churin_2023-09-28-11-00-52.bag"]
 
 
 # 各bagファイルに対して処理を行う
@@ -18,11 +22,16 @@ for bag_file_path in bag_file_paths:
     intensities_data = []
     luminous_intensity_data = []  # luminous_intensityデータを格納するリストを追加
 
+    angle_limit = 70
+
     # データを読み取り、/diag_scanトピックからデータを収集
     for topic, msg, t in bag.read_messages(topics=['/diag_scan']):
+        angle_min = msg.angle_min  # 最小角度
+        angle_increment = msg.angle_increment  # 角度の増分
         for i in range(360):
+            angle = angle_min + i * angle_increment  # 各データ点の角度を計算
             range_value = msg.ranges[i]
-            if 3.0 <= range_value <= 10.0:  # 3〜8メートルの範囲内のデータのみ収集
+            if 0 <= range_value <= 10.0 and -angle_limit <= np.degrees(angle) <= angle_limit:
                 ranges_data.append(range_value)
                 intensities_data.append(msg.intensities[i])
 
@@ -45,13 +54,13 @@ for bag_file_path in bag_file_paths:
 
 # グラフの軸ラベルと凡例を設定
 plt.title(
-    "環境光と反射強度の関係", y=-0.16)
+    "環境光と反射強度の関係", y=-0.1)
 plt.xlabel('距離 / m')
 plt.ylabel('反射強度')
 plt.legend()
 
 # 軸範囲設定
-plt.xlim(3, 10)
+plt.xlim(0, 10)
 plt.ylim(0, 3000)
 
 
