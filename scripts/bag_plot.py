@@ -5,12 +5,10 @@ import japanize_matplotlib
 
 
 # bagファイルのパスを指定するリスト
-bag_file_paths = [
-    "/home/atsuki/lab_ws/src/experiment/2023-07-10-1/10-renga_2023-07-10-12-53-53.bag",
-    "/home/atsuki/lab_ws/src/experiment/2023-07-10-2/10-renga_2023-07-10-21-38-31.bag",
-    "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/4_renga_2023-09-26-15-50-30.bag",
-    "/home/atsuki/lab_ws/src/experiment/2023-09-26_2/2_renga_2023-09-26-17-42-40.bag",
-    "/home/atsuki/lab_ws/src/experiment/2023-09-28/3_renga_churin_2023-09-28-11-00-52.bag"]
+bag_file_paths = ["/home/atsuki/lab_ws/src/experiment/2023-09-28/3_renga_churin_2023-09-28-11-00-52.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-09-28/1_renga_2023-09-28-10-53-29.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/4_renga_2023-09-26-15-50-30.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_2/2_renga_2023-09-26-17-42-40.bag"]
 
 
 # 各bagファイルに対して処理を行う
@@ -60,7 +58,7 @@ plt.ylabel('反射強度')
 plt.legend()
 
 # 軸範囲設定
-plt.xlim(0, 10)
+plt.xlim(2, 8)
 plt.ylim(0, 3000)
 
 
