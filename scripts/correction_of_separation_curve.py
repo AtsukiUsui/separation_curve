@@ -4,8 +4,10 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
 # bagファイルのパスを指定するリスト
-bag_file_paths = ["/home/atsuki/lab_ws/src/experiment/2023-07-10-1/7-renga_2023-07-10-12-46-37.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-2/7-renga_2023-07-10-21-32-12.bag"]
+bag_file_paths = ["/home/atsuki/lab_ws/src/experiment/2023-07-10-1/5-shiba_2023-07-10-12-42-37.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-09-28/2_shiba_2023-09-28-10-56-59.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/6_shiba_2023-09-26-15-57-07.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_2/3_shiba_2023-09-26-17-46-16.bag"]
 
 # 平均値を計算するための関数
 
@@ -29,11 +31,16 @@ for bag_file_path in bag_file_paths:
     intensities_data = []
     luminous_intensity_data = []
 
+    angle_limit = 70
+
     # データを読み取り、/diag_scanトピックからデータを収集
     for topic, msg, t in bag.read_messages(topics=['/diag_scan']):
+        angle_min = msg.angle_min  # 最小角度
+        angle_increment = msg.angle_increment  # 角度の増分
         for i in range(360):
+            angle = angle_min + i * angle_increment  # 各データ点の角度を計算
             range_value = msg.ranges[i]
-            if 3.0 <= range_value <= 8.0:  # 3〜8メートルの範囲内のデータのみ収集
+            if 0 <= range_value <= 10.0 and -angle_limit <= np.degrees(angle) <= angle_limit:
                 ranges_data.append(range_value)
                 intensities_data.append(msg.intensities[i])
 
