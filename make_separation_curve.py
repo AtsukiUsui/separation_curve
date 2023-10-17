@@ -45,17 +45,29 @@ bag_2 = rosbag.Bag(bag_file_2, 'r')
 np_poses_1 = None
 np_poses_2 = None
 
+angle_limit = 70
+
 # バッグファイル1のデータを処理
 for topic, msg, t in bag_1.read_messages():
     if topic == "/diag_scan":
         np_pose = np.zeros((896, 4))
 
+        angle_min = msg.angle_min  # 最小角度
+        angle_increment = msg.angle_increment  # 角度の増分
+
+        # for i in range(360):
+        #     np_pose[i, 0] = msg.ranges[i]
+        #     np_pose[i, 1] = msg.intensities[i]
+        #     np_pose[i, 2] = t.secs
+        #     np_pose[i, 3] = t.nsecs
+        #     i += 1
+
         for i in range(360):
-            np_pose[i, 0] = msg.ranges[i]
-            np_pose[i, 1] = msg.intensities[i]
-            np_pose[i, 2] = t.secs
-            np_pose[i, 3] = t.nsecs
-            i += 1
+            angle = angle_min + i * angle_increment  # 各データ点の角度を計算
+            range_value = msg.ranges[i]
+            if 0 <= range_value <= 10.0 and -angle_limit <= np.degrees(angle) <= angle_limit:
+                np_pose[i, 0] = msg.ranges[i]
+                np_pose[i, 1] = msg.intensities[i]
 
         if np_poses_1 is None:
             np_poses_1 = np_pose
