@@ -7,7 +7,8 @@ from scipy.optimize import curve_fit
 bag_file_paths = ["/home/atsuki/lab_ws/src/experiment/2023-07-10-1/5-shiba_2023-07-10-12-42-37.bag",
                   "/home/atsuki/lab_ws/src/experiment/2023-09-28/2_shiba_2023-09-28-10-56-59.bag",
                   "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/6_shiba_2023-09-26-15-57-07.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_2/3_shiba_2023-09-26-17-46-16.bag"]
+                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_2/3_shiba_2023-09-26-17-46-16.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-2/5-shiba_2023-07-10-21-28-21.bag"]
 
 # 平均値を計算するための関数
 
@@ -40,7 +41,7 @@ for bag_file_path in bag_file_paths:
         for i in range(360):
             angle = angle_min + i * angle_increment  # 各データ点の角度を計算
             range_value = msg.ranges[i]
-            if 0 <= range_value <= 10.0 and -angle_limit <= np.degrees(angle) <= angle_limit:
+            if 0 <= range_value <= 5.0 and -angle_limit <= np.degrees(angle) <= angle_limit:
                 ranges_data.append(range_value)
                 intensities_data.append(msg.intensities[i])
 
