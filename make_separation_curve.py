@@ -8,11 +8,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import argparse
 
-degree = 2  # 多項式の次数
+degree = 1  # 多項式の次数
 
 # 分離曲線の生成に使用する、距離の範囲
 distance_lower_limit = 3.0  # 適切な下限を設定してください
-distance_upper_limit = 8.0  # 適切な上限を設定してください
+distance_upper_limit = 5.0  # 適切な上限を設定してください
+
+angle_limit = 70
 
 parser = argparse.ArgumentParser(description='Process ROS bag files.')
 parser.add_argument('bag_file_1', type=str, help='Path to the grass bag file')
@@ -45,7 +47,6 @@ bag_2 = rosbag.Bag(bag_file_2, 'r')
 np_poses_1 = None
 np_poses_2 = None
 
-angle_limit = 70
 
 # バッグファイル1のデータを処理
 for topic, msg, t in bag_1.read_messages():
@@ -202,8 +203,9 @@ plt.title(
 plt.xlabel("Range [m]")
 plt.ylabel("Intensity")
 # plt.xlim(2, 7.5)
-plt.xlim(distance_lower_limit, distance_upper_limit)
-plt.ylim(0, 3000)
+# plt.xlim(distance_lower_limit, distance_upper_limit)
+plt.xlim(0, distance_upper_limit)
+plt.ylim(0, 4000)
 
 # バッグファイル1のデータをプロット
 plt.scatter(np_poses_1[:, 0], np_poses_1[:, 1],
