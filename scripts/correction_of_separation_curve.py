@@ -4,19 +4,9 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
 # bagファイルのパスを指定するリスト
-bag_file_paths = ["/home/atsuki/lab_ws/src/experiment/2023-07-10-2/1_2023-07-10-21-08-04.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-2/2_2023-07-10-21-12-41.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-2/3_2023-07-10-21-17-06.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-2/4_2023-07-10-21-23-25.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/1_2023-09-26-15-25-43.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/2_2023-09-26-15-36-27.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/3_2023-09-26-15-42-31.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-1/1_2023-07-10-11-42-50.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-1/2_2023-07-10-11-49-39.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-1/3_2023-07-10-12-31-25.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-1/4_2023-07-10-12-36-53.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-09-28/4_2023-09-28-11-04-12.bag"
-                  ]
+bag_file_paths = ["/home/atsuki/lab_ws/src/experiment/2023-09-26_1/6_shiba_2023-09-26-15-57-07.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_2/3_shiba_2023-09-26-17-46-16.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-2/5-shiba_2023-07-10-21-28-21.bag"]
 
 # 平均値を計算するための関数
 
@@ -81,64 +71,55 @@ mean_intensities_array = np.array(mean_intensities_list)
 mean_luminous_intensity_array = np.array(mean_luminous_intensity_list)
 
 
-# 対数近似関数の定義（例として対数関数を使用）
-def logarithmic_function(x, a1, b1):
-    return a1 * np.log(x) + b1
+# 対数近似の計算
+coefficients_log = np.polyfit(
+    np.log(mean_luminous_intensity_array), mean_intensities_array, 1)
+a1, b1 = coefficients_log
+print(f'Logarithmic Fit: {a1} * log(x) + {b1}')
 
-
-# 対数近似を実行
-params, covariance = curve_fit(
-    logarithmic_function, mean_luminous_intensity_array, mean_intensities_array)
-# 対数近似結果からaとbの値を取得
-a1, b1 = params
-# 対数近似のパラメータを出力
-print(f'Logarithmic Fit:  {a1} * log(x) - {b1}')
-
-
-# 線形近似関数の定義
-def linear_function(x, a2, b2):
-    return a2 * x + b2
-
-
-# 線形近似を実行
-params, covariance = curve_fit(
-    linear_function, mean_luminous_intensity_array, mean_intensities_array)
-
-# 線形近似結果からaとbの値を取得
-a2, b2 = params
-
-# 線形近似のパラメータを出力
+# 線形近似の計算
+coefficients_linear = np.polyfit(
+    mean_luminous_intensity_array, mean_intensities_array, 1)
+a2, b2 = coefficients_linear
 print(f'Linear Fit: {a2} * x + {b2}')
 
-
-# 2次近似関数の定義
-def quadratic_function(x, a3, b3, c3):
-    return a3 * x**2 + b3 * x + c3
-
-
-# 2次近似を実行
-params, covariance = curve_fit(
-    quadratic_function, mean_luminous_intensity_array, mean_intensities_array)
-
-# 2次近似結果からa, b, cの値を取得
-a3, b3, c3 = params
-
-# 2次近似のパラメータを出力
+# 2次近似の計算
+coefficients_quadratic = np.polyfit(
+    mean_luminous_intensity_array, mean_intensities_array, 2)
+a3, b3, c3 = coefficients_quadratic
 print(f'Quadratic Fit: {a3} * x^2 + {b3} * x + {c3}')
+# 2次近似のパラメータを出力（指数表記を使わない）
+print(f'Quadratic Fit: {a3:.15f} * x^2 + {b3:.15f} * x + {c3:.15f}')
 
 
 # プロット
 plt.scatter(mean_luminous_intensity_array,
             mean_intensities_array, label='Data')
-plt.plot(mean_luminous_intensity_array, logarithmic_function(
-    mean_luminous_intensity_array, a1, b1), 'g', label='Logarithmic Fit')
-plt.plot(mean_luminous_intensity_array, linear_function(
-    mean_luminous_intensity_array, a2, b2), 'r', label='liner Fit')
-plt.plot(mean_luminous_intensity_array, quadratic_function(
-    mean_luminous_intensity_array, a3, b3, c3), 'b', label='Quadratic Fit')
-
-plt.xlabel('Mean Luminous Intensity')
+plt.plot(mean_luminous_intensity_array, a2 *
+         mean_luminous_intensity_array + b2, 'r', label='Linear Fit')
+# plt.plot(mean_luminous_intensity_array, a1 *
+#          np.log(mean_luminous_intensity_array) + b1, 'g', label='Logarithmic Fit')
+# plt.plot(mean_luminous_intensity_array, a3 * mean_luminous_intensity_array **
+#          2 + b3 * mean_luminous_intensity_array + c3, 'b', label='Quadratic Fit')
+plt.xlabel('Mean Luminous Intensity / lx')
 plt.ylabel('Mean Intensities')
+
+
+# x軸とy軸の最大値を設定
+x_max = np.max(mean_luminous_intensity_array) + 5000
+x_min = np.min(mean_luminous_intensity_array) - 5000
+y_max = np.max(mean_intensities_array) + 50
+y_min = np.min(mean_intensities_array) - 50
+# plt.xlim(x_min, x_max)
+# plt.ylim(y_min, y_max)
+plt.xlim(-2500, x_max)
+plt.ylim(2475, y_max)
+
+
+# 目盛り線の向きを内側に設定（補助目盛りも含む）
+plt.tick_params(which='both', direction='in', top=True, right=True)
+# 補助目盛りの表示
+# plt.minorticks_on()
 plt.legend()
 
 # プロットを表示
