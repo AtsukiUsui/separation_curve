@@ -4,9 +4,18 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
 # bagファイルのパスを指定するリスト
-bag_file_paths = ["/home/atsuki/lab_ws/src/experiment/2023-09-26_1/6_shiba_2023-09-26-15-57-07.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_2/3_shiba_2023-09-26-17-46-16.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-2/5-shiba_2023-07-10-21-28-21.bag"]
+bag_file_paths = ["/home/atsuki/lab_ws/src/experiment/2023-07-10-2/1_2023-07-10-21-08-04.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-2/2_2023-07-10-21-12-41.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-2/3_2023-07-10-21-17-06.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-2/4_2023-07-10-21-23-25.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/1_2023-09-26-15-25-43.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/2_2023-09-26-15-36-27.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/3_2023-09-26-15-42-31.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-1/1_2023-07-10-11-42-50.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-1/2_2023-07-10-11-49-39.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-1/3_2023-07-10-12-31-25.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-07-10-1/4_2023-07-10-12-36-53.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-09-28/4_2023-09-28-11-04-12.bag"]
 
 # 平均値を計算するための関数
 
@@ -110,10 +119,10 @@ x_max = np.max(mean_luminous_intensity_array) + 5000
 x_min = np.min(mean_luminous_intensity_array) - 5000
 y_max = np.max(mean_intensities_array) + 50
 y_min = np.min(mean_intensities_array) - 50
-# plt.xlim(x_min, x_max)
-# plt.ylim(y_min, y_max)
-plt.xlim(-2500, x_max)
-plt.ylim(2475, y_max)
+plt.xlim(x_min, x_max)
+plt.ylim(y_min, y_max)
+# plt.xlim(-2500, x_max)
+# plt.ylim(2475, y_max)
 
 
 # 目盛り線の向きを内側に設定（補助目盛りも含む）
