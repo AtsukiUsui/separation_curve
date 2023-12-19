@@ -5,13 +5,9 @@ import japanize_matplotlib
 
 
 # bagファイルのパスを指定するリスト
-bag_file_paths = ["/home/atsuki/lab_ws/src/experiment/2023-07-10-1/5-shiba_2023-07-10-12-42-37.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/6_shiba_2023-09-26-15-57-07.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_2/3_shiba_2023-09-26-17-46-16.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-09-28/3_renga_churin_2023-09-28-11-00-52.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/4_renga_2023-09-26-15-50-30.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_2/2_renga_2023-09-26-17-42-40.bag"
-                  ]
+bag_file_paths = [
+    "/home/atsuki/lab_ws/src/experiment/2023-07-10-1/1_2023-07-10-11-42-50.bag"
+]
 
 
 # 各bagファイルに対して処理を行う
@@ -61,8 +57,8 @@ plt.ylabel('反射強度')
 plt.legend()
 
 # 軸範囲設定
-plt.xlim(3, 5)
-plt.ylim(0, 3000)
+plt.xlim(2, 5)
+plt.ylim(0, 5000)
 
 
 # 目盛り線の向きを内側に設定（補助目盛りも含む）
