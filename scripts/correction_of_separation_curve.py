@@ -5,10 +5,11 @@ from scipy.optimize import curve_fit
 
 # bagファイルのパスを指定するリスト
 bag_file_paths = ["/home/atsuki/lab_ws/src/experiment/2023-09-28/2_shiba_2023-09-28-10-56-59.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/6_shiba_2023-09-26-15-57-07.bag",
                   "/home/atsuki/lab_ws/src/experiment/2023-09-26_2/3_shiba_2023-09-26-17-46-16.bag",
                   "/home/atsuki/lab_ws/src/experiment/2023-07-10-2/5-shiba_2023-07-10-21-28-21.bag",
-                  "/home/atsuki/lab_ws/src/experiment/2023-10-27/5_shiba_2023-10-27-12-03-22.bag"]
+                  "/home/atsuki/lab_ws/src/experiment/2023-10-27/5_shiba_2023-10-27-12-03-22.bag",
+                  "/home/atsuki/lab_ws/src/experiment/2023-09-26_1/6_shiba_2023-09-26-15-57-07.bag"
+                  ]
 # 平均値を計算するための関数
 
 
