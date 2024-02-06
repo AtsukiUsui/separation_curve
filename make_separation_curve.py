@@ -204,7 +204,7 @@ plt.xlabel("Range [m]")
 plt.ylabel("Intensity")
 # plt.xlim(2, 7.5)
 # plt.xlim(distance_lower_limit, distance_upper_limit)
-plt.xlim(0, distance_upper_limit)
+plt.xlim(2, distance_upper_limit)
 plt.ylim(0, 4000)
 
 # バッグファイル1のデータをプロット
